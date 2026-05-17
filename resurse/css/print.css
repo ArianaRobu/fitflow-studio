@@ -1,0 +1,316 @@
+/* ============================================================
+   print.css — Stil tipărire FitFlow Studio
+   Identificator cerință: css-printare
+   Autor: Ariana Robu
+   ============================================================ */
+
+@media print {
+
+  /* ══════════════════════════════════════════════════════════
+     7. MARGINI DIFERITE PAGINI STÂNGA / DREAPTA
+     ══════════════════════════════════════════════════════════ */
+  @page {
+    margin-top: 2cm;
+    margin-bottom: 2cm;
+  }
+
+  @page :left {
+    margin-left:  2cm;
+    margin-right: 1cm;
+  }
+
+  @page :right {
+    margin-left:  1cm;
+    margin-right: 2cm;
+  }
+
+
+  /* ══════════════════════════════════════════════════════════
+     6. WATERMARK PE FIECARE PAGINĂ
+     ══════════════════════════════════════════════════════════ */
+  body::before {
+    content:     "Ariana\A Robu";
+    white-space: pre;
+    position:    fixed;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    top:         50%;
+    left:        50%;
+    transform:   translate(-50%, -50%);
+    width:       60%;
+    height:      10%;
+    display:     flex;
+    align-items: center;
+    justify-content: center;
+    text-align:  center;
+    font-size:   2.8rem;
+    font-weight: 900;
+    font-family: 'Poppins', sans-serif;
+    color:       rgba(0, 0, 0, 0.3);
+    z-index:     9999;
+    pointer-events: none;
+    line-height: 1.3;
+  }
+
+
+  /* ══════════════════════════════════════════════════════════
+     1. BANNER — dreapta-sus, prima pagină
+     ══════════════════════════════════════════════════════════ */
+  .banner-scolar {
+    position:    fixed;
+    top:         0;
+    right:       0;
+    border:      4px double black;
+    width:       calc((100% - 3cm) / 2);
+    background:  white;
+    color:       black !important;
+    text-align:  center;
+    padding:     6px 12px;
+    font-size:   0.85rem;
+    font-weight: bold;
+    z-index:     1000;
+  }
+
+
+  /* ══════════════════════════════════════════════════════════
+     2. ASCUNDE ELEMENTE MEDIA + ELEMENTE DEPENDENTE + LINK TOP
+     ══════════════════════════════════════════════════════════ */
+  img,
+  picture,
+  video,
+  iframe,
+  embed,
+  audio,
+  canvas,
+  figcaption,
+  #link-top,
+  .container-iframe,
+  meter,
+  #hamburger,
+  #toggle-meniu,
+  #buton-inchide {
+    display: none !important;
+  }
+
+
+  /* ══════════════════════════════════════════════════════════
+     3. GRID AFIȘAT CA BLOCK
+     ══════════════════════════════════════════════════════════ */
+  #grid-pagina {
+    display: block !important;
+    gap:     0;
+    padding: 0;
+  }
+
+  #grid-pagina > * {
+    display:           block;
+    border:            1px solid #999;
+    border-radius:     0;
+    box-shadow:        none;
+    margin-bottom:     12px;
+    padding:           10px;
+    background:        white !important;
+    page-break-inside: avoid;
+    break-inside:      avoid;
+  }
+
+
+  /* ══════════════════════════════════════════════════════════
+     4. LINKURI CA TEXT NORMAL
+     ══════════════════════════════════════════════════════════ */
+  a,
+  a:visited,
+  a:hover,
+  a:active,
+  a:focus {
+    color:           black !important;
+    text-decoration: none !important;
+    background:      none !important;
+  }
+
+
+  /* ══════════════════════════════════════════════════════════
+     5. H1 CENTRAT + MENIU CA LISTĂ + PAGE BREAKS
+     ══════════════════════════════════════════════════════════ */
+
+  header {
+    display:          block;
+    text-align:       center;
+    background-color: transparent !important;
+    color:            black !important;
+    border:           none;
+    box-shadow:       none;
+    padding:          10px 0;
+    position:         static;
+    padding-right:    calc((100% - 3cm) / 2 + 20px);
+  }
+
+  header h1 {
+    text-align:  center;
+    font-size:   1.6rem;
+    color:       black !important;
+    margin:      0 0 16px 0;
+    display:     block;
+  }
+
+  nav {
+    display:          block !important;
+    position:         static !important;
+    background-color: transparent !important;
+    border:           none !important;
+    box-shadow:       none !important;
+    color:            black !important;
+    page-break-after: always;
+    break-after:      always;
+  }
+
+  nav ul {
+    display:      block !important;
+    list-style:   disc !important;
+    padding-left: 20px;
+    margin:       0;
+    gap:          0;
+  }
+
+  nav ul li {
+    display:       list-item !important;
+    position:      static;
+    color:         black;
+    margin-bottom: 4px;
+    clip-path:     none !important;
+    background:    transparent !important;
+  }
+
+  nav ul li .bg-li {
+    display: none !important;
+  }
+
+  nav ul li > a {
+    color:         black !important;
+    padding:       0 !important;
+    border-radius: 0 !important;
+    background:    none !important;
+    font-weight:   600;
+    display:       inline !important;
+  }
+
+  nav ul li > a::before {
+    display: none !important;
+  }
+
+  nav ul li ul {
+    display:          block !important;
+    position:         static !important;
+    transform:        none !important;
+    list-style:       circle !important;
+    padding-left:     24px;
+    margin-top:       2px;
+    background-color: transparent !important;
+    box-shadow:       none !important;
+    border-radius:    0 !important;
+  }
+
+  nav ul li ul li a {
+    color:     black !important;
+    padding:   0 !important;
+    display:   inline !important;
+    font-size: 0.9rem;
+  }
+
+  footer {
+    page-break-before: always;
+    break-before:      always;
+    background-color:  transparent !important;
+    color:             black !important;
+    border:            none !important;
+    box-shadow:        none !important;
+    padding:           10px 0;
+    display:           block;
+  }
+
+  footer a {
+    color: black !important;
+  }
+
+  footer small {
+    color: black !important;
+  }
+
+
+  /* ══════════════════════════════════════════════════════════
+     RESETURI GENERALE PENTRU PRINT
+     ══════════════════════════════════════════════════════════ */
+  *,
+  *::before,
+  *::after {
+    box-shadow:  none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    background-color: white !important;
+    color:            black !important;
+    font-size:        11pt;
+    margin:           0;
+    padding:          0;
+  }
+
+  main {
+    margin-left:  0 !important;
+    margin-right: 0 !important;
+  }
+
+  * {
+    animation:  none !important;
+    transition: none !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: black !important;
+  }
+
+  blockquote {
+    border-left:      3px solid black;
+    background-color: #f5f5f5;
+    padding:          8px 12px;
+  }
+
+  details {
+    border:     1px solid #999;
+    background: white;
+  }
+
+  details summary {
+    color: black !important;
+  }
+
+  table {
+    border: 2px solid black;
+    width:  100%;
+  }
+
+  table th,
+  table td {
+    border: 1px solid black;
+    color:  black;
+  }
+
+  table thead tr {
+    background-color: #ddd;
+    color:            black;
+  }
+
+  table tbody tr:nth-child(even) {
+    background-color: #f0f0f0;
+  }
+
+  table tfoot td {
+    background-color: #ccc;
+    color:            black;
+  }
+
+  math mi, math mn, math mo {
+    color: black !important;
+  }
+
+}

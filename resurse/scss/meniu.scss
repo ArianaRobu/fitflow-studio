@@ -1,0 +1,355 @@
+// ============================================================
+// menu.scss — Meniu navigare FitFlow Studio — Etapa 3
+// cerinta: variante-meniu
+// ============================================================
+
+// ── VARIABILE SASS ───────────────────────────────────────────
+$breakpoint-mediu : 1024px;
+$breakpoint-mic   : 600px;
+$hamburger-delay  : 150;       // ms, folosit in @for (bonus)
+$nav-radius       : 6px;
+$submenu-radius   : 8px;
+$submenu-min-w    : 200px;
+$bar-h            : 3;         // px
+$bar-w            : 28;        // px
+$bar-gap          : 8;         // px
+
+// ── PLACEHOLDERS pentru @extend ──────────────────────────────
+
+%nav-link-base {
+  text-decoration : none;
+  font-weight     : 600;
+  display         : flex;
+  align-items     : center;
+  gap             : 6px;
+  color           : #fff;
+  border-radius   : $nav-radius;
+  position        : relative;
+  overflow        : hidden;
+  cursor          : pointer;
+}
+
+%submenu-link-base {
+  @extend %nav-link-base;
+  display       : block;
+  font-size     : 0.9rem;
+  font-weight   : 400;
+  border-radius : 0;
+  gap           : 0;
+  overflow      : visible;
+}
+
+
+// ── KEYFRAMES ────────────────────────────────────────────────
+
+@keyframes bar-intro {
+  0% {
+    opacity          : 0;
+    transform        : scaleX(0) rotate(-45deg);
+    background-color : var(--culoare-secundara);
+  }
+  60% {
+    opacity          : 0.85;
+    transform        : scaleX(1.1) rotate(8deg);
+    background-color : var(--culoare-accent);
+  }
+  100% {
+    opacity          : 1;
+    transform        : scaleX(1) rotate(0deg);
+    background-color : #fff;
+  }
+}
+
+
+// ── HAMBURGER — checkbox hack ─────────────────────────────────
+
+.nav-toggle-input {
+  display : none;
+}
+@keyframes optiune-apare {
+  0% {
+    clip-path : polygon(0 50%, 100% 0%, 100% 100%, 0 50%);
+    opacity   : 0;
+  }
+  50% {
+    clip-path : polygon(0 0%, 100% 0%, 100% 100%, 0 100%);
+    opacity   : 0.7;
+  }
+  100% {
+    clip-path : polygon(0 0%, 100% 0%, 100% 100%, 0 100%);
+    opacity   : 1;
+  }
+}
+.hamburger-label {
+  display     : none;
+  cursor      : pointer;
+  padding     : 5px;
+  margin-right : auto;
+
+  .hamburger-icon {
+    position : relative;
+    width    : #{$bar-w}px;
+    height   : #{$bar-w - 6}px;
+
+    .bar {
+      position         : absolute;
+      left             : 0;
+      width            : 100%;
+      height           : #{$bar-h}px;
+      background-color : #fff;
+      border-radius    : 2px;
+      animation        : bar-intro 0.5s ease both;
+
+      &.bar-1 { top: 0; }
+      &.bar-2 { top: #{$bar-gap}px; }
+      &.bar-3 { top: #{$bar-gap * 2}px; }
+    }
+  }
+}
+
+// Bonus @for — delay-uri succesive pentru fiecare bara
+@for $i from 1 through 3 {
+  .hamburger-icon .bar:nth-child(#{$i}) {
+    animation-delay : #{($i - 1) * $hamburger-delay}ms;
+  }
+}
+
+
+// ── HEADER ───────────────────────────────────────────────────
+header {
+  position    : relative;
+  display     : flex;
+  align-items : center;
+  flex-wrap   : wrap;
+  gap         : 10px;
+  flex-direction: row-reverse;
+
+  h1 {
+    flex   : 1;
+    margin : 0;
+    text-align: center;
+  }
+}
+
+
+// ── NAV — ECRAN MARE (>1024px) ───────────────────────────────
+nav {
+  ul {
+    list-style  : none;
+    margin      : 0;
+    padding     : 0;
+    display     : flex;
+    gap         : 4px;
+    flex-wrap   : wrap;
+    align-items : center;
+    position    : relative;
+
+    li {
+      position : relative;
+
+      > a {
+        @extend %nav-link-base;
+        padding : 7px 12px;
+
+        i,
+        .nav-text {
+          position : relative;
+          z-index  : 1;
+        }
+      }
+
+      ul {
+        display          : block;
+        position         : absolute;
+        top              : 100%;
+        left             : 0;
+        background-color : var(--culoare-primara);
+        border-radius    : $submenu-radius;
+        padding          : 6px 0;
+        min-width        : $submenu-min-w;
+        z-index          : 200;
+        box-shadow       : 0 6px 20px rgba(0, 0, 0, 0.25);
+        transform        : scaleY(0);
+        transform-origin : top left;
+        transition       : transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+
+        li {
+          a {
+            @extend %submenu-link-base;
+            padding    : 9px 18px;
+            transition : background-color 0.2s ease, color 0.2s ease;
+
+            // Subliniere dubla la hover (cerinta c)
+            &:hover {
+  background-color          : var(--culoare-secundara);
+  color                     : var(--culoare-text);
+  text-decoration           : underline;
+  text-decoration-style     : double;
+  text-decoration-thickness : 3px;
+  text-decoration-color     : var(--culoare-primara);
+}
+          }
+        }
+      }
+
+      &:hover > ul {
+        transform : scaleY(1);
+      }
+    }
+  }
+}
+
+// Efect ::before pe optiunile principale (cerinta a)
+nav > ul > li > a::before {
+  content       : '';
+  position      : absolute;
+  top           : 0;
+  left          : 0;
+  width         : 200%;
+  height        : 100%;
+  background    : linear-gradient(
+    to right,
+    var(--culoare-secundara) 0%,
+    var(--culoare-primara)   100%
+  );
+  transform     : translateX(0);
+  transition    : transform 0.45s ease;
+  z-index       : 0;
+  border-radius : inherit;
+}
+
+nav > ul > li > a:hover::before {
+  transform : translateX(-50%);
+}
+
+
+// ── ECRAN MEDIU (≤1024px) ────────────────────────────────────
+@media screen and (max-width: $breakpoint-mediu) {
+  nav ul li {
+    > a {
+      padding : 8px 10px;
+
+      .nav-text {
+        display : none;
+      }
+
+      i {
+        font-size : 1.2rem;
+      }
+    }
+  }
+
+  nav ul {
+    gap : 2px;
+  }
+}
+
+
+// ── ECRAN MIC (≤600px) — HAMBURGER ───────────────────────────
+@media screen and (max-width: $breakpoint-mic) {
+
+  .hamburger-label {
+    display     : flex;
+    align-items : center;
+    margin-right: auto;
+  }
+
+  nav {
+    display          : none;
+    position         : absolute;
+    top              : 100%;
+    left             : 0;
+    right            : 0;
+    background-color : var(--culoare-primara);
+    z-index          : 300;
+    border-top       : 2px solid var(--culoare-secundara);
+    border-radius    : 0 0 10px 10px;
+    box-shadow       : 0 8px 24px rgba(0, 0, 0, 0.35);
+    transform-origin : top right;
+
+    ul {
+      flex-direction : column;
+      gap            : 0;
+      align-items    : stretch;
+      text-align     : center;
+
+      li {
+        > a {
+          padding         : 16px 20px;
+          border-radius   : 0;
+          font-size       : 1.1rem;
+          justify-content : center;
+
+          &::before {
+            display : none;
+          }
+
+          .nav-text {
+            display : inline;
+          }
+
+          &:hover {
+            background-color : var(--culoare-secundara);
+            color            : #fff;
+          }
+        }
+
+        // Prima optiune (Acasa) - doar iconul pe mobil
+        &:first-child > a .nav-text {
+          display : none;
+        }
+
+        ul {
+          position         : static;
+          border-radius    : 0;
+          box-shadow       : none;
+          background-color : var(--culoare-accent);
+          min-width        : 100%;
+          padding          : 0;
+          max-height       : 0;
+          overflow         : hidden;
+          transform        : rotate(-4deg);
+          transform-origin : top center;
+          opacity          : 0;
+          transition       : transform 0.4s ease, opacity 0.4s ease, max-height 0.45s ease;
+
+          li {
+            a {
+              padding         : 13px 36px;
+              font-size       : 1rem;
+              justify-content : center;
+              text-align      : center;
+              color           : var(--culoare-text);
+
+              &:hover {
+                background-color : var(--culoare-secundara);
+                color            : #fff;
+              }
+            }
+          }
+        }
+
+        &:hover > ul,
+        &:focus-within > ul {
+          transform  : rotate(0deg);
+          opacity    : 1;
+          max-height : 400px;
+        }
+      }
+    }
+  }
+
+  .nav-toggle-input:checked ~ nav {
+    display   : block;
+  }
+.nav-toggle-input:checked ~ nav ul li {
+  animation : optiune-apare 0.5s ease forwards;
+  opacity   : 0;
+}
+
+@for $i from 1 through 6 {
+  .nav-toggle-input:checked ~ nav ul li:nth-child(#{$i}) {
+    animation-delay : #{($i - 1) * 100}ms;
+  }
+}
+}
