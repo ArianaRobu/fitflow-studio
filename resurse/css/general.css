@@ -5,10 +5,6 @@
   --culoare-fundal:    #FDF6F0;   /* crem — fundalul paginii */
   --culoare-text:      #3D2B2B;   /* maro închis — text principal */
   --culoare-border:    #EDCFDA;   /* roz foarte pal — borduri */
-}
-
-
-:root {
   --spatiere-pagina:   80px;   
   --spatiere-medie:    40px;   
   --spatiere-mica:     10px;   
@@ -17,7 +13,7 @@
   --gap-grid-mic:     8px;     
   --margin-zona:     16px;
   --padding-zona: 16px;
-  --font-base:        16px;
+  --font-base:    16px;
 }
 
 *, *::before, *::after {
@@ -357,3 +353,38 @@ tbody tr:hover {
   overflow-x: auto;
 }
 
+math {
+  display      : block;
+  font-size    : 1.2rem;
+  margin       : 1rem 0;
+  color        : var(--culoare-text);
+}
+
+
+mi {
+  font-style : italic;
+  color      : var(--culoare-primara);
+  font-size  : 1.1em;
+}
+
+
+mo {
+  font-weight : bold;
+  font-size   : 1.3em;
+  color       : var(--culoare-text);
+  padding     : 0 0.2em;
+}
+
+
+mn {
+  color     : var(--culoare-secundara);
+  font-size : 1.1em;
+}
+
+
+mrow {
+  display     : inline-flex;
+  align-items : center;
+  gap         : 0.2em;
+  flex-wrap   : wrap;
+}

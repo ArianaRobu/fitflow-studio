@@ -1,20 +1,15 @@
-// ============================================================
-// menu.scss — Meniu navigare FitFlow Studio — Etapa 3
-// cerinta: variante-meniu
-// ============================================================
 
-// ── VARIABILE SASS ───────────────────────────────────────────
 $breakpoint-mediu : 1024px;
 $breakpoint-mic   : 600px;
-$hamburger-delay  : 150;       // ms, folosit in @for (bonus)
+$hamburger-delay  : 150;       
 $nav-radius       : 6px;
 $submenu-radius   : 8px;
 $submenu-min-w    : 200px;
-$bar-h            : 3;         // px
-$bar-w            : 28;        // px
-$bar-gap          : 8;         // px
+$bar-h            : 3;         
+$bar-w            : 28;       
+$bar-gap          : 8;         
 
-// ── PLACEHOLDERS pentru @extend ──────────────────────────────
+
 
 %nav-link-base {
   text-decoration : none;
@@ -39,9 +34,6 @@ $bar-gap          : 8;         // px
   overflow      : visible;
 }
 
-
-// ── KEYFRAMES ────────────────────────────────────────────────
-
 @keyframes bar-intro {
   0% {
     opacity          : 0;
@@ -61,7 +53,7 @@ $bar-gap          : 8;         // px
 }
 
 
-// ── HAMBURGER — checkbox hack ─────────────────────────────────
+
 
 .nav-toggle-input {
   display : none;
@@ -107,7 +99,7 @@ $bar-gap          : 8;         // px
   }
 }
 
-// Bonus @for — delay-uri succesive pentru fiecare bara
+
 @for $i from 1 through 3 {
   .hamburger-icon .bar:nth-child(#{$i}) {
     animation-delay : #{($i - 1) * $hamburger-delay}ms;
@@ -115,7 +107,7 @@ $bar-gap          : 8;         // px
 }
 
 
-// ── HEADER ───────────────────────────────────────────────────
+
 header {
   position    : relative;
   display     : flex;
@@ -132,7 +124,7 @@ header {
 }
 
 
-// ── NAV — ECRAN MARE (>1024px) ───────────────────────────────
+
 nav {
   ul {
     list-style  : none;
@@ -199,7 +191,7 @@ nav {
   }
 }
 
-// Efect ::before pe optiunile principale (cerinta a)
+
 nav > ul > li > a::before {
   content       : '';
   position      : absolute;
@@ -223,7 +215,7 @@ nav > ul > li > a:hover::before {
 }
 
 
-// ── ECRAN MEDIU (≤1024px) ────────────────────────────────────
+
 @media screen and (max-width: $breakpoint-mediu) {
   nav ul li {
     > a {
@@ -245,7 +237,7 @@ nav > ul > li > a:hover::before {
 }
 
 
-// ── ECRAN MIC (≤600px) — HAMBURGER ───────────────────────────
+
 @media screen and (max-width: $breakpoint-mic) {
 
   .hamburger-label {

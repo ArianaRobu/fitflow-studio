@@ -1,0 +1,128 @@
+
+html {
+  font-size: 16px; 
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+
+ul, ol {
+  list-style: none;
+}
+
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+img, video, embed, iframe {
+  border: 0;
+  vertical-align: middle;
+}
+
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td, th {
+  vertical-align: top;
+  text-align: left;
+}
+
+
+input, button, select, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+
+:root {
+  --spatiere-reset-v: 0.5rem;
+  --spatiere-reset-h: 0.75rem;
+}
+
+p, blockquote, dl, figure {
+  margin-bottom: var(--spatiere-reset-v);
+}
+
+
+b, strong {
+  font-weight: bold;
+}
+
+i, em {
+  font-style: italic;
+}
+
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+
+
+li {
+  margin-bottom: var(--spatiere-reset-v);
+}
+
+
+caption {
+  text-align: center;
+}
+
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote::before, blockquote::after,
+q::before, q::after {
+  content: '';
+}
+
+
+hr {
+  border: 0;
+  border-top: 1px solid currentColor;
+  height: 0;
+}
+
+
+sub, sup {
+  font-size: 0.75rem;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup { top: -0.5rem; }
+sub { bottom: -0.25rem; }
