@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <%- include('../fragmente/head') %>
+  <title>Galerie Animată — FitFlow Studio</title>
+
+  <style>
+    <%- cssDinamic %>
+  </style>
+</head>
+<body>
+
+  <%- include('../fragmente/header') %>
+
+  <main>
+    <h1 style="text-align: center; margin-top: 30px; margin-bottom: 40px;">Galerie Animată</h1>
+    
+    <div class="galerie-animata-css">
+        <% if (imaginiGalerie && imaginiGalerie.length > 0) { %>
+            <% imaginiGalerie.forEach(function(img) { 
+                let caleFisier = img.cale_imagine || img.fisier || img.src;
+                let srcMare = ("/" + caleBazaGalerie + "/" + caleFisier).replace(/\/\//g, '/');
+            %>
+                <figure>
+                    <img src="<%= srcMare %>" alt="<%= img.titlu %>">
+                    <figcaption><%= img.descriere %></figcaption>
+                </figure>
+            <% }); %>
+        <% } else { %>
+            <p style="text-align:center; padding: 50px;">Nu există suficiente imagini impare în JSON.</p>
+        <% } %>
+    </div>
+  </main>
+
+  <%- include('../fragmente/footer') %>
+
+</body>
+</html>

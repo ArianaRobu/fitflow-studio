@@ -1,0 +1,15 @@
+{
+  "cale_galerie": "/resurse/imagini/galerie/",
+  "imagini": [
+    {"cale_imagine": "img1.jpg", "titlu": "Clasă de Yoga Vinyasa", "descriere": "Echilibru și flexibilitate la primele ore ale dimineții.", "sfert_ora": "1"},
+    {"cale_imagine": "img2.jpg", "titlu": "Antrenament HIIT", "descriere": "Cardio intens pentru arderea rapidă a caloriilor.", "sfert_ora": "1"},
+    {"cale_imagine": "img3.jpg", "titlu": "Sesiune de Pilates", "descriere": "Tonifierea musculaturii de bază și control postural.", "sfert_ora": "2"},
+    {"cale_imagine": "img4.jpg", "titlu": "Zonă Greutăți Libere", "descriere": "Echipamente premium pentru antrenamentele de forță.", "sfert_ora": "2"},
+    {"cale_imagine": "img5.jpg", "titlu": "Clasă de Zumba", "descriere": "Distracție și mișcare pe ritmuri latino incendiare.", "sfert_ora": "3"},
+    {"cale_imagine": "img6.jpg", "titlu": "Stretching & Relaxare", "descriere": "Recuperare musculară după un antrenament solicitant.", "sfert_ora": "3"},
+    {"cale_imagine": "img7.jpg", "titlu": "Antrenament Personal", "descriere": "Instructorii noștri te ajută să îți atingi obiectivele.", "sfert_ora": "4"},
+    {"cale_imagine": "img8.jpg", "titlu": "Yoga în Aer Liber", "descriere": "Conexiune cu natura în sesiunile speciale de weekend.", "sfert_ora": "4"},
+    {"cale_imagine": "img9.jpg", "titlu": "Echipamente Cardio", "descriere": "Benzi de alergat de ultimă generație cu ecrane smart.", "sfert_ora": "1"},
+    {"cale_imagine": "img10.jpg", "titlu": "Meditație Ghidată", "descriere": "Liniște mentală și deconectare de la stresul zilnic.", "sfert_ora": "2"}
+  ]
+}

@@ -1,0 +1,73 @@
+/* ============================================================ */
+/* ETAPA 5: CUSTOMIZARE BOOTSTRAP (Suprascriere Variabile)      */
+/* ============================================================ */
+
+/* 1. Culori de background pentru minim 2 teme (Customizăm culorile de bază Bootstrap) */
+$primary: #eea5d6;   // Tema 1: Portocaliul FitFlow (înlocuiește albastrul clasic de Bootstrap)
+$secondary: #444444; // Tema 2: Gri închis 
+
+/* 2. Culori de font (litere) */
+$body-color: #222222; // Culoarea textului pe tot site-ul
+$link-color: #eea5d6; // Culoarea link-urilor
+
+/* 3. Dimensiuni de ecran diferite pentru ecrane medii (md) și mari (lg) */
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 800px,   /* Modificat de la 768px la 800px */
+  lg: 1100px,  /* Modificat de la 992px la 1100px */
+  xl: 1200px,
+  xxl: 1400px
+);
+
+/* 4. Dimensiunea razelor de border (Facem butoanele și cardurile mai rotunjite) */
+$border-radius: 12px;
+$border-radius-lg: 20px;
+$border-radius-sm: 6px;
+
+/* 5. Dimensiunea literelor heading-urilor */
+$h1-font-size: 3rem;   /* Mai mari decât default-ul */
+$h2-font-size: 2.2rem;
+
+/* 6. Familia de font implicită */
+$font-family-sans-serif: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+/* 7. Încă o variabilă aleasă de noi (Spațierea de bază și umbrele) */
+$spacer: 1.5rem;       /* Spațiere mai generoasă */
+$enable-shadows: true; /* Activăm umbrele implicite pe componentele Bootstrap */
+
+// ==========================================
+// CERINȚA 3.a și 3.f (Variabile Bootstrap)
+// ==========================================
+
+// 1. Facem bordura butoanelor mai groasă și mai rotunjită (Cerința 3.a)
+$btn-border-width: 3px; 
+$btn-border-radius: 12px; 
+
+// 2. Facem bulina de la range (preț) cu 50% mai mare (Cerința 3.f)
+// Dimensiunea standard e 1rem, deci cu 50% mai mare înseamnă 1.5rem
+$form-range-thumb-width: 1.5rem;
+$form-range-thumb-height: 1.5rem;
+
+// Schimbăm și culorile direct din SCSS pentru range 
+$form-range-thumb-bg: #d81b60; // Rozul nostru
+$form-range-track-bg: #e9ecef;
+/* ============================================================ */
+/* IMPORTUL BAZELOR BOOTSTRAP (Aici se face magia compilării)   */
+/* ============================================================ */
+/* Calea către folderul node_modules instalat la pasul 0 */
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+
+/* ============================================================ */
+/* CORECTARE BOOTSTRAP (Revenire la setările site-ului)         */
+/* ============================================================ */
+/* Bootstrap dă reset la marginile de la liste și adaugă niște padding-uri. 
+   Aici ne asigurăm că designul vechi nu este stricat: */
+ul, ol {
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+}
+a {
+    text-decoration: none; /* Scoatem sublinierea enervantă la linkuri */
+}

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <%- include('../fragmente/head') %>
+
+  <title>FitFlow Studio — Fitness & Yoga București</title>
+  <meta name="keywords" content="studio fitness, yoga București, clase aerobic, antrenament personal, wellness, abonament fitness, sală sport, instructori certificați">
+  <meta name="description" content="FitFlow Studio — studio de fitness și yoga din București. Clase de grup, antrenament personal, yoga și wellness pentru toate nivelurile.">
+</head>
+<body>
+
+  <%- include('../fragmente/header') %>
+
+  <main>
+    <div id="banner-oferta" class="alert d-none shadow-sm text-center mx-auto mt-3" style="max-width: 800px; background-color: #fce4ec; border: 3px dashed #d81b60;">
+        <h4 class="mb-2 text-danger fw-bold"><i class="fa-solid fa-fire fa-beat"></i> SUPER OFERTĂ ACTIVĂ!</h4>
+        <p class="fs-5 mb-1" style="color: #880e4f;">
+            Ai <span id="of-reducere" class="fw-bold fs-3"></span>% REDUCERE pentru toate clasele din categoria: <span id="of-cat" class="fw-bold text-uppercase"></span>
+        </p>
+        <div class="mt-2 fs-5">
+            Timp rămas: <span id="of-timer" class="badge bg-dark fs-4 ms-2 p-2 px-3">00:00</span>
+        </div>
+    </div>
+
+    <script>
+        let intervalOferta = null;
+        async function incarcaOfertaAcasa() {
+            try {
+                let res = await fetch('/api/oferta');
+                let oferta = await res.json();
+                
+                if (oferta) {
+                    document.getElementById('banner-oferta').classList.remove('d-none');
+                    document.getElementById('of-reducere').innerText = oferta.reducere;
+                    document.getElementById('of-cat').innerText = oferta.categorie;
+                    
+                    let dataFinal = new Date(oferta['data-finalizare']).getTime();
+                    if(intervalOferta) clearInterval(intervalOferta);
+                    
+                    intervalOferta = setInterval(() => {
+                        let distanta = dataFinal - new Date().getTime();
+                        
+                        if (distanta <= 0) {
+                            clearInterval(intervalOferta);
+                            document.getElementById('banner-oferta').classList.add('d-none');
+                            setTimeout(incarcaOfertaAcasa, 1500); // Oferta expiră, cerem alta nouă!
+                            return;
+                        }
+                        
+                        let minute = Math.floor((distanta % (1000 * 60 * 60)) / (1000 * 60));
+                        let secunde = Math.floor((distanta % (1000 * 60)) / 1000);
+                        let timerDiv = document.getElementById('of-timer');
+                        
+                        timerDiv.innerText = `${minute.toString().padStart(2, '0')}:${secunde.toString().padStart(2, '0')}`;
+                        
+                        // c. Ultimele 10 secunde - schimbă culoarea 
+                        if (distanta < 10000) {
+                            timerDiv.classList.replace('bg-dark', 'bg-danger');
+                        } else {
+                            timerDiv.classList.replace('bg-danger', 'bg-dark');
+                        }
+                    }, 1000);
+                }
+            } catch(e) {}
+        }
+        window.addEventListener('DOMContentLoaded', incarcaOfertaAcasa);
+    </script>
+    
+    <div id="grid-pagina">
+
+    <section id="zona1" class="grid-zona">
+        <section id="despre">
+          <hgroup>
+        
+
+            <h2>Despre FitFlow Studio</h2>
+            <p>Locul unde mișcarea devine stil de viață</p>
+          </hgroup>
+          <hr class="hr-stilizat">  
+
+          <div class="alert alert-secondary mt-4 shadow" role="alert">
+              <strong>Salutare!</strong> Acesta este un <em>alert de Bootstrap</em>.
+ Observi fontul diferit, colțurile foarte rotunjite și umbra? 
+              <br><br>
+              <button class="btn btn-primary btn-lg">Acesta este un buton Bootstrap Primary</button>
+          </div>
+
+          <div class="text-pe-coloane">
+              <p>
+                <b>FitFlow Studio</b> este un studio de <b>fitness și yoga</b> din inima Bucureștiului,
+        
+
+                dedicat tuturor celor care doresc să îmbine antrenamentul fizic cu echilibrul interior.
+ Oferim clase de <b>aerobic, pilates, zumba</b> și multiple stiluri de yoga, conduse de
+                <b>instructori certificați</b> cu experiență internațională.
+ </p>
+
+              <p>
+                Fie că ești la primul pas în lumea <i>wellness</i>-ului sau un sportiv experimentat,
+                la FitFlow vei găsi programul potrivit pentru tine.
+ Filozofia noastră se bazează pe
+                principiul <i>mens sana in corpore sano</i> — un corp sănătos într-o minte sănătoasă.
+ </p>
+
+              <p>
+                <i class="fa-solid fa-fire fa-beat" style="color: var(--culoare-primara);"></i>
+                <strong>Înscrie-te acum și primești prima săptămână GRATUITĂ!</strong>
+                Nu rata această oportunitate de a-ți transforma stilul de viață.
+ </p>
+
+              <p>
+                Suntem <em>singurul</em> studio din București care combină antrenamentul funcțional
+                cu tehnicile tradiționale de yoga Hatha și Vinyasa în aceeași sală.
+ </p>
+
+              <p>
+                Prețurile noastre sunt <s>prohibitiv de mari</s>
+                <ins>accesibile pentru orice buget, cu pachete de la 150 RON/lună</ins>.
+ </p>
+          </div>
+          <p>
+            Termenul <abbr title="High Intensity Interval Training">HIIT</abbr> descrie tipul
+            de antrenament cu intervale de intensitate ridicată alternând cu pauze scurte.
+ </p>
+
+          <p>
+            La FitFlow practicăm <dfn>yoga</dfn> — o disciplină fizică și mentală originară din
+            India, care combină posturi corporale, tehnici de respirație și meditație pentru
+            atingerea echilibrului interior.
+ </p>
+
+          <blockquote>
+            <p>
+              <q>Corpul tău poate face aproape orice.
+ Trebuie să-ți convingi mintea să înceapă.</q>
+            </p>
+            <p>— <cite>The Fitness Mindset</cite>, Brian Keane</p>
+          </blockquote>
+
+          <p>
+            Află mai multe despre beneficiile yoga pe
+            <a href="https://www.yogajournal.com" target="_blank" rel="noopener">Yoga Journal</a>,
+            
+
+ cel mai important portal internațional dedicat practicii yoga.
+          </p>
+
+          <p>
+            Studiu complet despre beneficiile fitness-ului:
+            <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6572433/#:~:text=regular-physical-activity-benefits">
+              https://www.ncbi.nlm.nih.gov/<wbr>pmc/articles/<wbr>PMC6572433/<wbr>#:~:text=regular-physical-activity-benefits
+            </a>
+          </p>
+
+         
+     
+  
+         
+
+          <section id="misiune">
+            <h3>Misiunea noastră</h3>
+            <p>
+              La FitFlow Studio credem că fiecare persoană merită acces la un stil de viață
+              sănătos și echilibrat.
+ De aceea am creat un spațiu primitor, dotat cu echipamente
+              de ultimă generație și condus de profesioniști cu adevărat pasionați de ceea ce fac.
+ Programele noastre sunt adaptate pentru toate nivelurile, de la beginners la avansați,
+              și acoperă o gamă largă de discipline: fitness, yoga, pilates, zumba și meditație.
+ </p>
+          </section>
+
+          <section id="calorii">
+            <h3>Calcul calorii arse</h3>
+            <p>Formula folosită pentru estimarea caloriilor arse în timpul antrenamentului:</p>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi>Calorii</mi>
+  
+
+               <mo>=</mo>
+                <mi>MET</mi>
+                <mo>×</mo>
+                <mi>greutate</mi>
+                <mo>×</mo>
+                <mi>timp</mi>
+     
+  
+         </mrow>
+            </math>
+            <p>unde <abbr title="Metabolic Equivalent of Task">MET</abbr> reprezintă intensitatea exercițiului.</p>
+          </section>
+
+        </section>
+      </section>
+
+      <section id="zona3" class="grid-zona">
+        <section id="evenimente">
+          <h2>
+       
+  
+    <i class="fa-solid fa-calendar-days"></i>
+            Evenimente viitoare
+          </h2>
+
+          <ol>
+            <li>
+              <time datetime="2026-05-10T10:00">10 mai 2026, ora 10:00</time> —
+              <b>Workshop Yoga pentru Începători</b> — O sesiune introductivă de 2 ore
+   
+    
+         cu instructoarea noastră Ana Ionescu.
+ Locuri limitate, înscriere obligatorie.
+ </li>
+            <li>
+              <time datetime="2026-05-17T09:00">17 mai 2026, ora 09:00</time> —
+              <b>Maraton Fitness 24h</b> — 24 de ore de clase non-stop, cu toți instructorii noștri.
+ Participarea este liberă pentru abonați.
+            </li>
+            <li>
+              <time datetime="2026-06-01T11:00">1 iunie 2026, ora 11:00</time> —
+              <b>Ziua Copilului Activ</b> — Clase speciali de yoga și dans pentru copii
+              între 6 și 14 ani.
+ Intrare gratuită.
+            </li>
+            <li>
+              <time datetime="2026-06-21T07:00">21 iunie 2026, ora 07:00</time> —
+              <b>Ziua Internațională a Yoga</b> — Sesiune de yoga în aer liber în Parcul Herăstrău.
+ Eveniment public, participare gratuită.
+            </li>
+            <li>
+              <time datetime="2026-07-05T10:00">5 iulie 2026, ora 10:00</time> —
+              <b>Bootcamp de Vară</b> — Program intensiv de 2 săptămâni pentru
+              tonifiere și cardio.
+ Locuri limitate.
+            </li>
+          </ol>
+        </section>
+      </section>
+
+      <section id="zona4" class="grid-zona">
+        <div class="container-marquee">
+            <span class="text-marquee">🔥 OFERTĂ SPECIALĂ: Înscrie-te acum și primești prima săptămână GRATUITĂ!
+ Descoperă echilibrul interior la FitFlow Studio! 🔥</span>
+        </div>
+      </section>
+
+      <section id="zona5" class="grid-zona">
+        <h2>Utilizatori online</h2>
+        <p>Lorem ipsum.</p>
+      </section>
+
+      <section id="zona6" class="grid-zona">
+        <h2>Date utilizator</h2>
+        <p>Adresa IP: <b><%= locals.ip %></b></p>
+      </section>
+
+      <section id="zona7" class="grid-zona">
+     
+
+    <h2>Date server</h2>
+        <p>Lorem ipsum.</p>
+      </section>
+
+      <section id="zona8" class="grid-zona">
+        <section id="instructori">
+          <h2>Instructorii noștri vedetă</h2>
+
+          <article>
+            <h3>Ana Ionescu — Instructor Yoga</h3>
+            <p>
+             
+  
+ Ana are 8 ani de experiență în yoga Hatha și Vinyasa, cu certificare internațională
+              obținută în India.
+ Clasele sale sunt apreciate pentru energia pozitivă și
+              atenția acordată fiecărui student.
+ </p>
+            <p>Satisfacția cursanților:
+              <meter value="92" min="0" max="100" low="50" high="80" optimum="95">92/100</meter>
+              92%
+            </p>
+            <p>Locuri disponibile în clase:
+              <meter value="3" min="0" max="20" low="5" high="15" optimum="10">3/20</meter>
+      
+
+         doar 3 locuri libere!
+ </p>
+          </article>
+
+          <article>
+            <h3>Mihai Popescu — Antrenor Fitness</h3>
+            <p>
+              Mihai este specialist în antrenament funcțional și HIIT, cu o experiență de
+              10 ani în pregătirea sportivilor de performance.
+ Abordarea sa combină
+              știința exercițiului cu motivația personalizată.
+ </p>
+            <p>Satisfacția cursanților:
+              <meter value="88" min="0" max="100" low="50" high="80" optimum="95">88/100</meter>
+              88%
+            </p>
+            <p>Locuri disponibile în clase:
+              <meter value="18" min="0" max="20" low="5" high="15" optimum="10">18/20</meter>
+      
+
+         18 locuri ocupate — clasă aproape plină!
+ </p>
+          </article>
+        </section>
+
+        <section id="sectiune-galerie-statica">
+            <h2>Galerie Foto (Sfertul de oră curent)</h2>
+            <%- include('../fragmente/galerie', { imaginiGalerie: imaginiGalerie, caleBazaGalerie: caleBazaGalerie }) %>
+        </section>
+
+        <div class="bg-fix-animat">
+            <h2>Transformă-ți corpul și mintea</h2>
+    
+     </div>
+
+        <div class="video-background-container">
+            <video autoplay loop muted playsinline>
+                <source src="/resurse/video/video.mp4" type="video/mp4">
+    
+         </video>
+            <h2 style="color: white; text-shadow: 2px 2px 4px black; z-index: 1;">Vino în echipa noastră!</h2>
+        </div>
+        
+ <section id="galerie">
+          <h2>Galeria noastră</h2>
+
+          <figure>
+            <picture>
+              <source media="(max-width: 480px)" srcset="/resurse/imagini/sala-mica.jpg">
+ 
+              <source media="(max-width: 1200px)" srcset="/resurse/imagini/sala-medie.jpg">
+              <img src="/resurse/imagini/sala-mare.jpg"
+                
+    alt="Sala principală de fitness a studioului FitFlow"
+                   title="Sala noastră modernă, dotată cu echipamente de ultimă generație">
+            </picture>
+     
+        <figcaption>Sala principală FitFlow Studio — 400 mp de spațiu dedicat mișcării</figcaption>
+          </figure>
+
+          <figure>
+         
+    <a href="/resurse/imagini/yoga-mare.jpg">
+              <img src="/resurse/imagini/yoga-mica.jpg"
+                   alt="Clasă de stretching și flexibilitate la FitFlow Studio"
+         
+           title="Click pentru a vedea imaginea mărită">
+            </a>
+            <figcaption>Clasă de stretching și flexibilitate la 
+ FitFlow Studio</figcaption>
+          </figure>
+
+          <p>
+            <a href="/resurse/imagini/yoga-mare.jpg" download="yoga_fitflow_studio.jpg">
+              Descarcă o imagine din galerie
+  
+           </a>
+          </p>
+
+          <embed src="/resurse/program-fitflow.pdf" type="application/pdf" width="600" height="400">
+        </section>
+
+  
+       <section id="video">
+          <h2>Vizionează clasele noastre</h2>
+
+          <div class="container-iframe">
+            <iframe class="iframe-video"
+             
+  name="video-fitflow"
+              width="560"
+              height="315"
+              
+ src="https://www.youtube.com/embed/v7AYKMP6rOE"
+              title="Yoga pentru începători — FitFlow Studio"
+              frameborder="0"
+              allow="accelerometer;
+ autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+            <div class="taburi-iframe">
+              <a href="https://www.youtube.com/embed/v7AYKMP6rOE" target="video-fitflow">Yoga pentru începători</a>
+              <a href="https://youtube.com/embed/J4wm6qiv5pI" target="video-fitflow">Antrenament HIIT 20 min</a>
+      
+
+         <a href="https://www.youtube.com/embed/v7AYKMP6rOE" target="video-fitflow">Redă primul videoclip</a>
+            </div>
+          </div>
+
+          <iframe class="iframe-bonus"
+            src="https://www.youtube.com/embed?listType=playlist&list=PLui6Eyny-Uzwzd-9fi_cmhz3UW9gS1raf&autoplay=1&loop=1&playlist=PLui6Eyny-Uzwzd-9fi_cmhz3UW9gS1raf"
+            title="Playlist Yoga FitFlow"
+            frameborder="0"
+            allow="autoplay;
+ encrypted-media"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
+
+          <video id="video-custom" controls preload="auto" poster="/resurse/imagini/poster-video.jpg">
+            <source src="/resurse/video/video.mp4" type="video/mp4">
+            <source src="/resurse/video/video.webm" type="video/webm">
+            <track src="/resurse/video/ro.vtt" kind="subtitles" srclang="ro" label="Română" default>
+       
+
+      <track src="/resurse/video/en.vtt" kind="subtitles" srclang="en" label="English">
+            Browserul tău nu suportă elementul video.
+          </video>
+        </section>
+
+        <section id="zona2" class="grid-zona">
+          <section id="abonamente-preview">
+            <h2>Pachetele noastre</h2>
+
+            <div class="tabel-container">
+        
+  
+      <table>
+                <caption>Comparativ abonamente FitFlow Studio — prețuri valabile 2026</caption>
+                <thead>
+                  <tr>
+                    <th>Pachet</th>
+                
+  
+   <th>Durata</th>
+                    <th>Clase incluse</th>
+                    <th>Preț (RON)</th>
+                  </tr>
+                </thead>
+                <tbody>
+   
+    
+             <tr>
+                    <td><b>Start</b></td>
+                    <td>1 lună</td>
+                    <td>8 clase/lună (orice disciplină)</td>
+                    
+ <td>150</td>
+    
+               </tr>
+                  <tr>
+                    <td><b>Standard</b></td>
+                    <td>1 lună</td>
+                    <td>Clase nelimitate</td>
+ 
+      
+               <td>220</td>
+                  </tr>
+                  <tr>
+                  <td><b>Premium</b></td>
+                  <td>3 luni</td>
+       
+      
+      <td>Clase nelimitate + 2 ședințe PT</td>
+                  <td>580</td>
+                </tr>
+                  <tr>
+                    <td><b>Anual</b></td>
+           
+        
+   <td>12 luni</td>
+                    <td>Clase nelimitate + antrenament personal nelimitat</td>
+                    <td>1800</td>
+                  </tr>
+                  <tr>
+        
+         
+     <td><b>Student</b></td>
+                    <td>1 lună</td>
+                    <td>8 clase/lună</td>
+                    <td>100</td>
+                  </tr>
+       
+         
+ </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="4">* Toate prețurile includ TVA.
+ Reducere 10% la plata online.</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </section>
+
+          <section id="faq">
+            <h2>Întrebări frecvente</h2>
+
+  
+
+           <details>
+              <summary>Ce echipament trebuie să aduc la prima clasă?</summary>
+              <p>Nu ai nevoie de echipament special.
+ Îți recomandăm haine sport confortabile, adidași de sală (sau să vii desculț la yoga) și o sticlă de apă.
+ Saltelele și accesoriile sunt disponibile la recepție.</p>
+            </details>
+
+            <details>
+              <summary>Pot să încerc o clasă înainte să cumpăr un abonament?</summary>
+              <p>Da!
+ Oferim o săptămână de probă gratuită pentru toți clienții noi.
+ În această perioadă poți participa la orice clasă din program, fără nicio obligație.</p>
+            </details>
+
+            <details>
+              <summary>Există clase pentru copii?</summary>
+              <p>Da, avem clase speciale de yoga pentru copii între 6 și 14 ani, sâmbăta între orele 10:00 și 11:30.
+ Clasele sunt conduse de instructori specializați în lucrul cu copii.</p>
+            </details>
+
+            <details>
+              <summary>Cum mă pot programa la antrenament personal?</summary>
+              <p>Poți contacta recepția noastră prin telefon, email sau prin formularul de contact de pe site.
+ Programările pentru antrenament personal se fac cu cel puțin 24 de ore înainte.</p>
+            </details>
+          </section>
+        </section>
+
+      </section> </div>
+  </main>
+
+  <%- include('../fragmente/footer') %>
+
+</body>
+</html> 

@@ -43,15 +43,15 @@ nav ul li ul li a {
 
 @keyframes optiune-apare {
   0% {
-    clip-path: polygon(0 50%, 100% 0%, 100% 100%, 0 50%);
+    clip-path: polygon(0% 0%, 0% 0%, 0% 50%, 0% 100%, 0% 100%);
     opacity: 0;
   }
   50% {
-    clip-path: polygon(0 0%, 100% 0%, 100% 100%, 0 100%);
-    opacity: 0.7;
+    clip-path: polygon(0% 0%, 50% 0%, 100% 50%, 50% 100%, 0% 100%);
+    opacity: 1;
   }
   100% {
-    clip-path: polygon(0 0%, 100% 0%, 100% 100%, 0 100%);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
     opacity: 1;
   }
 }
@@ -168,17 +168,20 @@ nav > ul > li > a::before {
   position: absolute;
   top: 0;
   left: 0;
-  width: 200%;
+  width: 100%;
   height: 100%;
-  background: linear-gradient(to right, var(--culoare-secundara) 0%, var(--culoare-primara) 100%);
-  transform: translateX(0);
-  transition: transform 0.45s ease;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 0 10px 2px rgba(255, 255, 255, 0.5);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.4s ease;
   z-index: 0;
   border-radius: inherit;
 }
 
 nav > ul > li > a:hover::before {
-  transform: translateX(-50%);
+  transform: scaleY(1);
 }
 
 @media screen and (max-width: 1024px) {
@@ -202,96 +205,88 @@ nav > ul > li > a:hover::before {
     margin-right: auto;
   }
   nav {
-    display: none;
+    visibility: hidden;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    background-color: var(--culoare-primara);
+    background-color: transparent;
     z-index: 300;
     border-top: 2px solid var(--culoare-secundara);
     border-radius: 0 0 10px 10px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-    transform-origin: top right;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   }
   nav ul {
     flex-direction: column;
     gap: 0;
+    padding: 0;
+    margin: 0;
     align-items: stretch;
     text-align: center;
   }
+  nav ul li {
+    opacity: 0;
+    background-color: var(--culoare-primara);
+    margin: 0;
+    position: relative;
+  }
   nav ul li > a {
     padding: 16px 20px;
-    border-radius: 0;
     font-size: 1.1rem;
     justify-content: center;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
   }
   nav ul li > a::before {
-    display: none;
+    display: block;
+    opacity: 0 !important;
+    transition: transform 0.45s ease, opacity 0.2s ease;
   }
   nav ul li > a .nav-text {
     display: inline;
   }
-  nav ul li > a:hover {
-    background-color: var(--culoare-secundara);
-    color: #fff;
-  }
-  nav ul li:first-child > a .nav-text {
-    display: none;
+  nav ul li.activ > a::before,
+  nav ul li > a:active::before {
+    opacity: 1 !important;
+    transform: translateX(-50%) !important;
   }
   nav ul li ul {
+    display: none;
     position: static;
-    border-radius: 0;
-    box-shadow: none;
+    transform: none;
     background-color: var(--culoare-accent);
-    min-width: 100%;
+    box-shadow: none;
     padding: 0;
-    max-height: 0;
-    overflow: hidden;
-    transform: rotate(-4deg);
-    transform-origin: top center;
-    opacity: 0;
-    transition: transform 0.4s ease, opacity 0.4s ease, max-height 0.45s ease;
+  }
+  nav ul li ul li {
+    opacity: 1;
+    background-color: transparent;
   }
   nav ul li ul li a {
-    padding: 13px 36px;
-    font-size: 1rem;
-    justify-content: center;
-    text-align: center;
+    padding: 12px 20px;
     color: var(--culoare-text);
+    justify-content: center;
   }
   nav ul li ul li a:hover {
     background-color: var(--culoare-secundara);
     color: #fff;
   }
-  nav ul li:hover > ul, nav ul li:focus-within > ul {
-    transform: rotate(0deg);
-    opacity: 1;
-    max-height: 400px;
+  nav ul li.activ > ul {
+    display: flex !important;
+    flex-direction: column;
+  }
+  nav ul li:hover > ul {
+    display: none;
+  }
+  nav ul li.activ:hover > ul {
+    display: flex;
   }
   .nav-toggle-input:checked ~ nav {
-    display: block;
+    visibility: visible;
   }
-  .nav-toggle-input:checked ~ nav ul li {
-    animation: optiune-apare 0.5s ease forwards;
-    opacity: 0;
-  }
-  .nav-toggle-input:checked ~ nav ul li:nth-child(1) {
-    animation-delay: 0ms;
-  }
-  .nav-toggle-input:checked ~ nav ul li:nth-child(2) {
-    animation-delay: 100ms;
-  }
-  .nav-toggle-input:checked ~ nav ul li:nth-child(3) {
-    animation-delay: 200ms;
-  }
-  .nav-toggle-input:checked ~ nav ul li:nth-child(4) {
-    animation-delay: 300ms;
-  }
-  .nav-toggle-input:checked ~ nav ul li:nth-child(5) {
-    animation-delay: 400ms;
-  }
-  .nav-toggle-input:checked ~ nav ul li:nth-child(6) {
-    animation-delay: 500ms;
+  .nav-toggle-input:checked ~ nav ul > li {
+    animation: optiune-apare 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   }
 }/*# sourceMappingURL=meniu.css.map */

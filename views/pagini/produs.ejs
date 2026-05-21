@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <%- include('../fragmente/head') %>
+  <title><%= produs.nume %> — FitFlow Studio</title>
+</head>
+<body class="bg-light">
+
+  <%- include('../fragmente/header') %>
+
+  <main class="container my-5">
+    <div class="row bg-white p-4 rounded shadow-sm">
+        <div class="col-md-6">
+            <img src="/resurse/imagini/<%= produs.imagine %>" class="img-fluid rounded shadow" alt="<%= produs.nume %>">
+        </div>
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h1 class="text-primary mb-3"><%= produs.nume %></h1>
+            <h4 class="text-muted mb-4">Categorie: <%= produs.categorie %> | Sala: <%= produs.sala %></h4>
+            
+            <p class="lead"><%= produs.descriere %></p>
+            
+            <ul class="list-group list-group-flush mb-4 mt-3">
+    <li class="list-group-item"><strong>Preț ședință:</strong> <%= produs.pret %> RON</li>
+    <li class="list-group-item"><strong>Durată:</strong> <%= produs.durata_minute %> minute</li>
+    <li class="list-group-item"><strong>Nivel de dificultate:</strong> <%= produs.nivel_dificultate %></li>
+    <li class="list-group-item"><strong>Echipament necesar:</strong> <%= produs.echipament.join(', ') %></li>
+    <li class="list-group-item"><strong>Programare:</strong> <%= produs.programare_obligatorie ? "Obligatorie în prealabil" : "Vino direct la sală (Nu necesită programare)" %></li>
+    
+    <li class="list-group-item"><strong>Categorie:</strong> <%= produs.categorie %></li>
+    <li class="list-group-item"><strong>Sala:</strong> <%= produs.sala %></li>
+</ul>
+
+            <a href="/produse" class="btn btn-outline-secondary mt-auto w-50"><i class="fa-solid fa-arrow-left"></i> Înapoi la toate clasele</a>
+        </div>
+    </div>
+  </main>
+
+  <%- include('../fragmente/footer') %>
+
+</body>
+</html>

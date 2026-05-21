@@ -1,0 +1,22 @@
+{
+  "oferte": [
+    {
+      "categorie": "Yoga",
+      "reducere": 15,
+      "data-incepere": "2026-06-05T21:28:11.780Z",
+      "data-finalizare": "2026-06-05T21:33:11.780Z"
+    },
+    {
+      "categorie": "Cardio",
+      "reducere": 10,
+      "data-incepere": "2026-06-05T21:23:11.767Z",
+      "data-finalizare": "2026-06-05T21:28:11.767Z"
+    },
+    {
+      "categorie": "Yoga",
+      "reducere": 50,
+      "data-incepere": "2026-06-05T21:18:11.759Z",
+      "data-finalizare": "2026-06-05T21:23:11.759Z"
+    }
+  ]
+}

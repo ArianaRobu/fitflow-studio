@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "nume": "Yoga Vinyasa",
+    "descriere": "Clasă dinamică pentru flexibilitate și echilibru interior.",
+    "imagine": "yoga-vinyasa.jpg",
+    "categorie": "Yoga",
+    "nivel_dificultate": "intermediar",
+    "pret": 50,
+    "durata_minute": 60,
+    "data_adaugare": "2026-05-10",
+    "sala": "Sala Zen",
+    "echipament": ["salteluță", "prosop", "apă"],
+    "programare_obligatorie": true
+  },
+  {
+    "id": 2,
+    "nume": "Antrenament HIIT",
+    "descriere": "Sesiune intensă de cardio pentru arderea rapidă a caloriilor.",
+    "imagine": "hiit-cardio.jpg",
+    "categorie": "Aerobic",
+    "nivel_dificultate": "avansat",
+    "pret": 40,
+    "durata_minute": 45,
+    "data_adaugare": "2026-05-12",
+    "sala": "Sala Cardio",
+    "echipament": ["apă", "încălțăminte sport"],
+    "programare_obligatorie": false
+  },
+  {
+    "id": 3,
+    "nume": "Sesiune Pilates",
+    "descriere": "Corectarea posturii și întărirea musculaturii de bază.",
+    "imagine": "pilates.jpg",
+    "categorie": "Pilates",
+    "nivel_dificultate": "incepator",
+    "pret": 45,
+    "durata_minute": 50,
+    "data_adaugare": "2026-05-15",
+    "sala": "Sala Zen",
+    "echipament": ["salteluță"],
+    "programare_obligatorie": true
+  },
+  {
+    "id": 4,
+    "nume": "Zumba Dance",
+    "descriere": "Combinație explozivă de dans și aerobic pe ritmuri latino.",
+    "imagine": "zumba.jpg",
+    "categorie": "Aerobic",
+    "nivel_dificultate": "incepator",
+    "pret": 35,
+    "durata_minute": 60,
+    "data_adaugare": "2026-05-18",
+    "sala": "Sala Cardio",
+    "echipament": ["apă", "încălțăminte sport", "prosop"],
+    "programare_obligatorie": false
+  },
+  {
+    "id": 5,
+    "nume": "Forță & Masă Musculară",
+    "descriere": "Antrenament cu greutăți libere coordonat de antrenor personal.",
+    "imagine": "forta.jpg",
+    "categorie": "Forță",
+    "nivel_dificultate": "avansat",
+    "pret": 80,
+    "durata_minute": 90,
+    "data_adaugare": "2026-05-20",
+    "sala": "Sala Forță",
+    "echipament": ["prosop", "apă", "mănuși fitness"],
+    "programare_obligatorie": true
+  }
+]

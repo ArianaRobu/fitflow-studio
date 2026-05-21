@@ -29,7 +29,7 @@
 </head>
 <body>
 
-<!-- ==================== HEADER ==================== -->
+
 <header>
   <h1>FitFlow Studio</h1>
 
@@ -488,21 +488,26 @@
     <small>
       &copy; <time datetime="2026">2026</time> FitFlow Studio. Toate drepturile rezervate.
     </small>
-    <p class="banner">Acesta este un proiect școlar!</p>
+    <p class="banner-scolar">Acesta este un proiect școlar!</p>
 
   </footer>
 <script>
-    document.querySelectorAll('nav > ul > li > a').forEach(link => {
-      link.addEventListener('click', function(e) {
-        const li = this.parentElement;
-        const areSubmeniu = li.querySelector('ul');
-        if (areSubmeniu && window.innerWidth <= 600) {
-          e.preventDefault();
-          li.classList.toggle('activ');
-        }
-      });
+  document.querySelectorAll('nav > ul > li').forEach(li => {
+    li.addEventListener('click', function(e) {
+      const areSubmeniu = this.querySelector('ul');
+      
+      
+      if (areSubmeniu && window.innerWidth <= 600) {
+        
+        
+        e.preventDefault(); 
+        
+      
+        this.classList.toggle('activ');
+      }
     });
-  </script>
+  });
+</script>
   <div id="watermark">Ariana<br>Robu</div>
 </body>
 </html>

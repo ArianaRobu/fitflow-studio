@@ -1,0 +1,35 @@
+{
+  "name": "fitflow-studio",
+  "version": "1.0.0",
+  "description": "Site studio de fitness si yoga",
+  "keywords": [
+    "fitness",
+    "yoga",
+    "bucuresti",
+    "wellnes"
+  ],
+  "homepage": "https://github.com/ArianaRobu/fitflow-studio#readme",
+  "bugs": {
+    "url": "https://github.com/ArianaRobu/fitflow-studio/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArianaRobu/fitflow-studio.git"
+  },
+  "license": "ISC",
+  "author": "Ariana Robu",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "boostrap": "^2.0.0",
+    "bootstrap": "^5.3.8",
+    "ejs": "^5.0.2",
+    "express": "^5.2.1",
+    "pg": "^8.21.0",
+    "sass": "^1.100.0",
+    "sharp": "^0.34.5"
+  }
+}

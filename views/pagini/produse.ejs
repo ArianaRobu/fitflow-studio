@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <%- include('../fragmente/head') %>
+  <title>Clase și Servicii — FitFlow Studio</title>
+  
+  <style>
+    .grid-produse {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+    }
+    .produs-card {
+        border-radius: 8px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .produs-card:hover {
+        transform: translateY(-5px);
+    }
+    .tabel-caracteristici {
+        width: 100%;
+        font-size: 0.9em;
+        margin-top: 10px;
+        table-layout: fixed; 
+    }
+    .tabel-caracteristici td {
+        padding: 4px 8px;
+        border-bottom: 1px solid #ddd;
+        word-wrap: break-word; 
+        overflow-wrap: break-word; 
+    }
+    }
+    .tabel-caracteristici td:first-child {
+        font-weight: bold;
+        color: #555;
+    }
+    .text-primary, .nume-entitate { color: #d81b60 !important; }
+    .btn-primary { background-color: #d81b60 !important; border-color: #d81b60 !important; color: white !important; }
+    .btn-primary:hover { background-color: #ad144b !important; }
+    .btn-outline-primary { color: #d81b60 !important; border-color: #d81b60 !important; }
+    .btn-outline-primary:hover, .btn-check:checked + .btn-outline-primary {
+        background-color: #d81b60 !important; border-color: #d81b60 !important; color: white !important;
+    }
+    .btn-success { background-color: #795548 !important; border-color: #795548 !important; color: white !important; }
+    .btn-success:hover { background-color: #5d4037 !important; }
+    input[type=range]::-webkit-slider-thumb { background: #d81b60 !important; }
+    input[type=range]::-moz-range-thumb { background: #d81b60 !important; }
+
+    body.tema-roz {
+        background-color: #fce4ec !important; 
+        color: #880e4f !important; 
+    }
+    body.tema-roz .card, body.tema-roz .bg-white {
+        background-color: #f8bbd0 !important; 
+        color: #880e4f !important;
+        border: 1px solid #d81b60 !important;
+    }
+    body.tema-roz .text-muted {
+        color: #ad144b !important;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+  <%- include('../fragmente/header') %>
+
+  <% 
+  function formateazaData(dataStr) {
+      const luni = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];
+      const zile = ["Duminică", "Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă"];
+      const d = new Date(dataStr);
+      if (isNaN(d.getTime())) return dataStr;
+      return `${d.getDate()}/${luni[d.getMonth()]}/${d.getFullYear()} (${zile[d.getDay()]})`;
+  }
+  %>
+
+  <main class="container my-5">
+    <h1 class="text-center mb-4">Clasele și Antrenamentele Noastre</h1>
+
+    <section id="zona-filtrare" class="bg-white p-4 rounded shadow-sm mb-5">
+        <h3 class="mb-3">Panou de Filtrare</h3>
+        
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="f-text" class="form-label">Caută după nume (suportă *):</label>
+                <input type="text" id="f-text" class="form-control" placeholder="ex: <%= produse.length > 0 ? produse[0].nume : 'Clasa' %>*">
+            </div>
+
+            <div class="col-md-4">
+                <label for="f-select" class="form-label">Categorie:</label>
+                <select id="f-select" class="form-select">
+                    <option value="toate">Oricare (Toate)</option>
+                    <% categoriiMeniu.forEach(function(cat) { %>
+                        <option value="<%= cat %>"><%= cat %></option>
+                    <% }); %>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label for="f-sala" class="form-label">Alege Sala:</label>
+                <input class="form-control" list="datalist-sali" id="f-sala" placeholder="Scrie pentru a căuta sala...">
+                <datalist id="datalist-sali">
+                    <% saliUnice.forEach(function(sala) { %>
+                        <option value="<%= sala %>">
+                    <% }); %>
+                </datalist>
+            </div>
+
+            <div class="col-md-4">
+                <label for="f-min-range" class="form-label mb-0">Preț min: <span id="val-min-range" class="fw-bold text-primary">(<%= minPret %>)</span> RON</label>
+                <input type="range" id="f-min-range" class="form-range" min="<%= minPret %>" max="<%= maxPret %>" value="<%= minPret %>">
+                
+                <label for="f-max-range" class="form-label mt-2 mb-0">Preț max: <span id="val-max-range" class="fw-bold text-primary">(<%= maxPret %>)</span> RON</label>
+                <input type="range" id="f-max-range" class="form-range" min="<%= minPret %>" max="<%= maxPret %>" value="<%= maxPret %>">
+            </div>
+
+            <div class="col-md-4">
+                <label for="f-multi" class="form-label">Echipament necesar:</label>
+                <select id="f-multi" class="form-select" multiple size="3">
+                    <% echipamenteUnice.forEach(function(echip) { %>
+                        <option value="<%= echip %>"><%= echip.charAt(0).toUpperCase() + echip.slice(1) %></option>
+                    <% }); %>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label d-block mb-2">Nivel dificultate:</label>
+                <div class="btn-group" role="group" aria-label="Filtru dificultate">
+                    <input type="radio" class="btn-check" name="f-radio" id="r-toate" value="toate" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="r-toate">Toate</label>
+
+                    <% dificultatiUnice.forEach(function(dif, idx) { %>
+                        <input type="radio" class="btn-check" name="f-radio" id="r-dif-<%= idx %>" value="<%= dif %>" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="r-dif-<%= idx %>"><%= dif.charAt(0).toUpperCase() + dif.slice(1) %></label>
+                    <% }); %>
+                </div>
+            </div>
+
+            <div class="col-md-4 d-flex align-items-end">
+                <div class="w-100 mb-2">
+                    <input type="checkbox" class="btn-check" id="f-check" autocomplete="off">
+                    <label class="btn btn-outline-danger w-100" for="f-check"><i class="fa-solid fa-calendar-check"></i> Doar cu programare</label>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Lasă un mesaj" id="f-textarea" style="height: 58px"></textarea>
+                    <label for="f-textarea">Note pt. oricare din cele <%= produse.length %> clase (Fără: <>,#)</label>
+                    <div class="invalid-feedback">Textarea conține caractere interzise (<, >, #)!</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex flex-wrap gap-2 justify-content-center">
+            <button id="btn-filtreaza" class="btn btn-primary shadow-sm"><i class="fa-solid fa-filter"></i> <span class="d-none d-md-inline">Filtrează</span></button>
+            <button id="btn-sort-asc" class="btn btn-outline-secondary"><i class="fa-solid fa-sort-up"></i> <span class="d-none d-md-inline">Sortează Ascendent</span></button>
+            <button id="btn-sort-desc" class="btn btn-outline-secondary"><i class="fa-solid fa-sort-down"></i> <span class="d-none d-md-inline">Sortează Descendent</span></button>
+            <button id="btn-calculeaza" class="btn btn-success shadow-sm"><i class="fa-solid fa-calculator"></i> <span class="d-none d-md-inline">Calculează Medie</span></button>
+            <button id="btn-resetare" class="btn btn-danger shadow-sm"><i class="fa-solid fa-rotate-left"></i> <span class="d-none d-md-inline">Resetare</span></button>
+            
+           <div class="ms-3 d-flex align-items-center">
+                <label for="select-tema" class="form-label mb-0 me-2 fw-bold"><i class="fa-solid fa-palette"></i> Temă:</label>
+                <select id="select-tema" class="form-select form-select-sm border-primary" style="width: auto;">
+                    <option value="light">☀️ Luminos</option>
+                    <option value="dark">🌙 Întunecat</option>
+                    <option value="roz">🌸 Roz FitFlow</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <div id="mesaj-eroare-produse" class="alert alert-warning text-center d-none" role="alert">
+        Nu există produse conform filtrării curente!
+    </div>
+
+    <div class="grid-produse" id="container-produse">
+        <% produse.forEach(function(prod) { %>
+            <article class="card produs-card bg-white shadow-sm p-3 mb-3 <%= prod.categorie.toLowerCase().replace(/\s+/g, '') %>" 
+                     id="art<%= prod.id %>"
+                     data-nume="<%= prod.nume.toLowerCase() %>"
+                     data-pret="<%= prod.pret %>"
+                     data-categorie="<%= prod.categorie %>"
+                     data-sala="<%= prod.sala %>"
+                     data-dificultate="<%= prod.nivel_dificultate %>"
+                     data-programare="<%= prod.programare_obligatorie %>"
+                     data-echipamente="<%= prod.echipament.join(',') %>"
+                     data-desc-lungime="<%= prod.descriere.length %>">
+                
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-4 text-center">
+                        <img src="/resurse/imagini/<%= prod.imagine %>" class="img-fluid rounded shadow-sm" alt="<%= prod.nume %>" style="max-height: 200px; object-fit: cover;">
+                    </div>
+                    
+                    <div class="col-md-8">
+                        <div class="card-body p-0">
+                            <h3 class="card-title h5 text-primary nume-entitate">
+                                <a href="/produs/<%= prod.id %>" class="text-decoration-none"><%= prod.nume %></a>
+                            </h3>
+                            <h4 class="text-muted small mb-2">Categorie: <%= prod.categorie %></h4>
+                            <p class="card-text text-secondary mb-3"><%= prod.descriere %></p>
+                            
+                         <table class="tabel-caracteristici">
+    <tbody>
+        <tr><td>Preț ședință:</td><td class="val-pret"><%= prod.pret %> RON</td></tr>
+        
+        <tr><td>Nivel dificultate:</td><td><%= prod.nivel_dificultate %></td></tr>
+        
+        <tr><td>Echipament:</td><td><%= prod.echipament.join(', ') %></td></tr>
+        
+        <tr><td>Adăugat:</td><td><time datetime="<%= prod.data_adaugare %>"><%= formateazaData(prod.data_adaugare) %></time></td></tr>
+        
+        <tr><td>Programare:</td><td><%= prod.programare_obligatorie ? "Obligatorie" : "Opțională" %></td></tr>
+    </tbody>
+</table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        <% }); %>
+    </div>
+    
+    <div id="container-paginare" class="d-flex justify-content-center mt-4 mb-5 gap-2 flex-wrap"></div>
+
+    <!-- BONUS 11: MODAL BOX PENTRU DETALII PRODUS -->
+    <div class="modal fade" id="modalProdus" tabindex="-1" aria-labelledby="modalProdusLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border: 2px solid #d81b60; border-radius: 12px;">
+          <div class="modal-header" style="background-color: #fce4ec; color: #880e4f; border-bottom: 1px solid #d81b60;">
+            <h5 class="modal-title fw-bold text-uppercase" id="modalProdusLabel">Nume Clasă</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Închide"></button>
+          </div>
+          <div class="modal-body text-center bg-light">
+            <img id="modal-img" src="" class="img-fluid rounded mb-3 shadow-sm" style="max-height: 250px; object-fit: cover;" alt="Imagine clasa">
+            <p id="modal-desc" class="text-secondary fw-medium"></p>
+            <ul class="list-group list-group-flush text-start shadow-sm rounded">
+                <li class="list-group-item border-primary"><strong>Preț ședință:</strong> <span id="modal-pret" class="text-primary fw-bold"></span> RON</li>
+                <li class="list-group-item border-primary"><strong>Sala:</strong> <span id="modal-sala"></span></li>
+                <li class="list-group-item border-primary"><strong>Dificultate:</strong> <span id="modal-dif"></span></li>
+                <li class="list-group-item border-primary"><strong>Echipament:</strong> <span id="modal-echip"></span></li>
+            </ul>
+          </div>
+          <div class="modal-footer" style="background-color: #fce4ec; border-top: 1px solid #d81b60;">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Am înțeles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </main>
+
+  <%- include('../fragmente/footer') %>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        // --- LOGICĂ 3 TEME (BONUS 2) ---
+        const selectTema = document.getElementById('select-tema');
+        function aplicaTema(temaAlesa) {
+            document.body.classList.remove('bg-light', 'bg-dark', 'text-white', 'tema-roz');
+            if (temaAlesa === 'dark') {
+                document.body.classList.add('bg-dark', 'text-white');
+            } else if (temaAlesa === 'roz') {
+                document.body.classList.add('tema-roz');
+            } else {
+                document.body.classList.add('bg-light');
+            }
+            selectTema.value = temaAlesa;
+            localStorage.setItem('tema', temaAlesa);
+        }
+        let temaSalvata = localStorage.getItem('tema') || 'light';
+        if (temaSalvata === 'true') temaSalvata = 'dark';
+        aplicaTema(temaSalvata);
+        selectTema.addEventListener('change', (e) => aplicaTema(e.target.value));
+
+        // --- UPDATE DINAMIC RANGE LABELS ---
+        const minRange = document.getElementById('f-min-range');
+        const maxRange = document.getElementById('f-max-range');
+        const valMin = document.getElementById('val-min-range');
+        const valMax = document.getElementById('val-max-range');
+
+        minRange.addEventListener('input', () => { valMin.innerText = `(${minRange.value})`; });
+        maxRange.addEventListener('input', () => { valMax.innerText = `(${maxRange.value})`; });
+
+        function valideazaInputuri() {
+            const textarea = document.getElementById('f-textarea');
+            const caractereInvalide = /[<>#]/;
+            if (caractereInvalide.test(textarea.value)) {
+                textarea.classList.add('is-invalid');
+                alert("Atenție! Câmpul de observații conține caractere interzise (<, >, #).");
+                return false;
+            } 
+            textarea.classList.remove('is-invalid');
+            if (parseInt(minRange.value) > parseInt(maxRange.value)) {
+                alert("Atenție! Prețul minim nu poate fi mai mare decât prețul maxim.");
+                return false;
+            }
+            return true;
+        }
+
+        // --- BONUS 5: SISTEM DE PAGINARE ---
+        const PRODUSE_PE_PAGINA = 3;
+        let elementeCurentFiltrate = [];
+
+        function genereazaPaginare(articoleFiltrate) {
+            const containerPagini = document.getElementById('container-paginare');
+            containerPagini.innerHTML = ''; 
+            
+            const nrPagini = Math.ceil(articoleFiltrate.length / PRODUSE_PE_PAGINA);
+            if (nrPagini <= 1) {
+                articoleFiltrate.forEach(art => art.style.setProperty('display', 'block', 'important'));
+                return;
+            }
+
+            for (let i = 1; i <= nrPagini; i++) {
+                let btn = document.createElement('button');
+                btn.className = 'btn btn-outline-primary fw-bold';
+                btn.innerText = i;
+                btn.addEventListener('click', () => afiseazaPagina(articoleFiltrate, i, btn));
+                containerPagini.appendChild(btn);
+            }
+            containerPagini.firstChild.click();
+        }
+
+        function afiseazaPagina(articoleFiltrate, pagina, butonApasat) {
+            const butoane = document.querySelectorAll('#container-paginare button');
+            butoane.forEach(b => {
+                b.classList.remove('btn-primary', 'text-white');
+                b.classList.add('btn-outline-primary');
+            });
+            if (butonApasat) {
+                butonApasat.classList.remove('btn-outline-primary');
+                butonApasat.classList.add('btn-primary', 'text-white');
+            }
+            
+            articoleFiltrate.forEach(art => art.style.setProperty('display', 'none', 'important'));
+            let start = (pagina - 1) * PRODUSE_PE_PAGINA;
+            let end = pagina * PRODUSE_PE_PAGINA - 1;
+            for (let i = start; i <= end && i < articoleFiltrate.length; i++) {
+                articoleFiltrate[i].style.setProperty('display', 'block', 'important');
+            }
+        }
+
+        // --- FUNCȚIA DE FILTRARE ---
+        function filtrareProduse() {
+            if (!valideazaInputuri()) return;
+            const txt = document.getElementById('f-text').value.toLowerCase().trim();
+            const cat = document.getElementById('f-select').value;
+            const sala = document.getElementById('f-sala').value.trim();
+            const pMin = parseInt(minRange.value);
+            const pMax = parseInt(maxRange.value);
+            const doarProgramare = document.getElementById('f-check').checked;
+            const radioSel = document.querySelector('input[name="f-radio"]:checked').value;
+            const multiSelect = document.getElementById('f-multi');
+            const echipamenteSelectate = Array.from(multiSelect.selectedOptions).map(opt => opt.value);
+            const articole = document.querySelectorAll('#container-produse article');
+            
+            articole.forEach(art => art.style.setProperty('display', 'none', 'important'));
+            elementeCurentFiltrate = [];
+
+            articole.forEach(art => {
+                const aNume = art.getAttribute('data-nume');
+                const aPret = parseInt(art.getAttribute('data-pret'));
+                const aCat = art.getAttribute('data-categorie');
+                const aSala = art.getAttribute('data-sala');
+                const aDificultate = art.getAttribute('data-dificultate');
+                const aProgramare = art.getAttribute('data-programare') === 'true';
+                const aEchipamente = art.getAttribute('data-echipamente').split(',');
+
+                let condText = true;
+                if (txt !== "") {
+                    if (txt.includes('*')) {
+                        let regexStr = "^" + txt.split('*').join('.*') + "$";
+                        let regex = new RegExp(regexStr, "i");
+                        condText = regex.test(aNume);
+                    } else {
+                        condText = aNume.includes(txt);
+                    }
+                }
+
+                let condCat = (cat === 'toate' || aCat === cat);
+                let condSala = (sala === "" || aSala.toLowerCase().includes(sala.toLowerCase()));
+                let condPret = (aPret >= pMin && aPret <= pMax);
+                let condProg = (!doarProgramare || aProgramare === true);
+                let condRadio = (radioSel === 'toate' || aDificultate === radioSel);
+                let condMulti = true;
+                if (echipamenteSelectate.length > 0) {
+                    condMulti = echipamenteSelectate.every(v => aEchipamente.includes(v));
+                }
+
+                if (condText && condCat && condSala && condPret && condProg && condRadio && condMulti) {
+                    elementeCurentFiltrate.push(art);
+                }
+            });
+
+            const mesajEroare = document.getElementById('mesaj-eroare-produse');
+            if (elementeCurentFiltrate.length === 0) {
+                mesajEroare.classList.remove('d-none');
+                document.getElementById('container-paginare').innerHTML = ''; 
+            } else {
+                mesajEroare.classList.add('d-none');
+                genereazaPaginare(elementeCurentFiltrate);
+            }
+        }
+
+        document.getElementById('btn-filtreaza').addEventListener('click', filtrareProduse);
+        const urlParams = new URLSearchParams(window.location.search);
+        let categorieDinUrl = urlParams.get('categorie');
+        if (categorieDinUrl) document.getElementById('f-select').value = categorieDinUrl;
+
+        filtrareProduse();
+        
+        function sorteaza(semn) {
+            if (!valideazaInputuri()) return;
+            const container = document.getElementById('container-produse');
+            const articole = Array.from(container.querySelectorAll('article'));
+
+            articole.sort((a, b) => {
+                const numeA = a.getAttribute('data-nume');
+                const numeB = b.getAttribute('data-nume');
+                const lenA = parseInt(a.getAttribute('data-desc-lungime'));
+                const lenB = parseInt(b.getAttribute('data-desc-lungime'));
+                if (numeA !== numeB) return semn * numeA.localeCompare(numeB);
+                return semn * (lenA - lenB);
+            });
+            articole.forEach(art => container.appendChild(art));
+            filtrareProduse();
+        }
+
+        document.getElementById('btn-sort-asc').addEventListener('click', () => sorteaza(1));
+        document.getElementById('btn-sort-desc').addEventListener('click', () => sorteaza(-1));
+        
+        document.getElementById('btn-calculeaza').addEventListener('click', () => {
+            if (!valideazaInputuri()) return; 
+            let suma = 0, nr = 0;
+            elementeCurentFiltrate.forEach(art => {
+                suma += parseInt(art.getAttribute('data-pret'));
+                nr++;
+            });
+
+            let medie = nr > 0 ? (suma / nr).toFixed(2) : 0;
+            const divCalcul = document.createElement('div');
+            divCalcul.className = "position-fixed bottom-0 start-50 translate-middle-x mb-4 p-3 bg-dark text-white rounded shadow-lg text-center border border-success";
+            divCalcul.style.zIndex = "10000";
+            divCalcul.innerHTML = `<h5>📊 Rezultat Calcul</h5><p class="mb-0">Prețul mediu al celor <b>${nr}</b> clase filtrate: <b>${medie} RON</b></p>`;
+            document.body.appendChild(divCalcul);
+            setTimeout(() => divCalcul.remove(), 2000);
+        });
+
+        document.getElementById('btn-resetare').addEventListener('click', () => {
+            if (confirm("Sigur doriți să resetați toate filtrele curente?")) {
+                document.getElementById('f-text').value = "";
+                document.getElementById('f-select').value = "toate";
+                document.getElementById('f-sala').value = "";
+                minRange.value = <%= minPret %>;
+                valMin.innerText = "(<%= minPret %>)";
+                maxRange.value = <%= maxPret %>;
+                valMax.innerText = "(<%= maxPret %>)";
+                document.getElementById('f-check').checked = false;
+                document.getElementById('r-toate').checked = true;
+                document.getElementById('f-textarea').value = "";
+                document.getElementById('f-textarea').classList.remove('is-invalid');
+                const multiSelect = document.getElementById('f-multi');
+                Array.from(multiSelect.options).forEach(opt => opt.selected = false);
+                filtrareProduse();
+            }
+        });
+    // --- BONUS 11: MODAL BOX REPARAT ---
+    const articoleProduse = document.querySelectorAll('.produs-card');
+
+    articoleProduse.forEach(art => {
+        art.style.cursor = 'pointer'; 
+        art.addEventListener('click', (e) => {
+            // Dacă userul a dat click pe link-ul din titlu, ignorăm modalul
+            if(e.target.closest('a')) return; 
+
+            // Populăm datele în modal
+            document.getElementById('modalProdusLabel').innerText = art.getAttribute('data-nume');
+            document.getElementById('modal-img').src = art.querySelector('img').src;
+            document.getElementById('modal-desc').innerText = art.querySelector('.card-text').innerText;
+            document.getElementById('modal-pret').innerText = art.getAttribute('data-pret');
+            document.getElementById('modal-sala').innerText = art.getAttribute('data-sala');
+            document.getElementById('modal-dif').innerText = art.getAttribute('data-dificultate');
+            document.getElementById('modal-echip').innerText = art.getAttribute('data-echipamente');
+            
+            // Inițializăm și afișăm modalul (Bootstrap 5)
+            const modalEl = document.getElementById('modalProdus');
+            const myModal = new bootstrap.Modal(modalEl);
+            myModal.show();
+        });
+    });
+
+
+     // --- BONUS 12: ACTUALIZARE PREȚURI REDUSE ---
+        async function verificaOfertaPreturi() {
+            try {
+                let url = '/api/oferta?nocache=' + Math.random();
+                let res = await fetch(url);
+                let oferta = await res.json();
+                
+                let acum = new Date().getTime();
+
+                document.querySelectorAll('.produs-card').forEach(art => {
+                    if (!art.hasAttribute('data-pret-original')) {
+                        art.setAttribute('data-pret-original', art.getAttribute('data-pret'));
+                    }
+                    
+                    const catCard = art.getAttribute('data-categorie').trim().toLowerCase();
+                    const pretOriginal = parseInt(art.getAttribute('data-pret-original'));
+                    const pretElem = art.querySelector('.val-pret');
+                    
+                
+                    if (oferta && oferta.categorie) {
+                        const catOferta = oferta.categorie.trim().toLowerCase();
+                        const timpulAExpirat = new Date(oferta['data-finalizare']).getTime() <= acum;
+
+                        if (catCard === catOferta && !timpulAExpirat) {
+                            // Aplicăm reducerea
+                            let pretNou = Math.round(pretOriginal - (pretOriginal * oferta.reducere / 100));
+                            pretElem.innerHTML = `<s class="text-secondary">${pretOriginal}</s> <span class="text-danger fw-bold fs-5 ms-1">${pretNou} RON</span> <span class="badge bg-danger ms-1">-${oferta.reducere}%</span>`;
+                            art.setAttribute('data-pret', pretNou); 
+                        } else {
+                            pretElem.innerHTML = `${pretOriginal} RON`;
+                            art.setAttribute('data-pret', pretOriginal);
+                        }
+                    } else {
+                        pretElem.innerHTML = `${pretOriginal} RON`;
+                        art.setAttribute('data-pret', pretOriginal);
+                    }
+                });
+
+            
+                setTimeout(verificaOfertaPreturi, 1000); 
+            } catch(e) { 
+                setTimeout(verificaOfertaPreturi, 2000); 
+            }
+        }
+        
+        verificaOfertaPreturi();
+
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<div class="galerie-grid">
+  <% if (!imaginiGalerie || imaginiGalerie.length === 0) { %>
+    <p class="galerie-goala">Nu există imagini pentru acest sfert de oră.</p>
+  <% } else { %>
+    <% for(let i = 0; i < imaginiGalerie.length; i++) { 
+        let img = imaginiGalerie[i];
+        let caleFisier = img.cale_imagine || img.fisier || img.src; 
+        
+        let numeFaraExtensie = caleFisier.split('.').slice(0, -1).join('.');
+        let extensie = caleFisier.split('.').pop();
+        
+        let urlBaza = ("/" + caleBazaGalerie + "/").replace(/\/\//g, '/');
+        
+        let srcMic = urlBaza + numeFaraExtensie + "_mic." + extensie;
+        let srcMediu = urlBaza + numeFaraExtensie + "_med." + extensie;
+        let srcMare = urlBaza + caleFisier;
+    %>
+        <figure class="item-galerie-complex">
+            <picture>
+                <source media="(max-width: 500px)" srcset="<%= srcMic %>">
+                <source media="(max-width: 900px)" srcset="<%= srcMediu %>">
+                <img src="<%= srcMare %>" 
+                     alt="<%= img.titlu ? img.titlu : caleFisier %>" 
+                     title="<%= img.descriere %>">
+            </picture>
+            
+            <figcaption class="descriere-galerie"><%= img.descriere %></figcaption>
+        </figure>
+    <% } %>
+  <% } %>
+</div>

@@ -1,10 +1,10 @@
 :root {
-  --culoare-primara:   #C2678B;   /* roz intens — header, footer, accente */
-  --culoare-secundara: #E8A0B8;   /* roz deschis — hover, borduri active */
-  --culoare-accent:    #F7C5D5;   /* roz pal — fundaluri secțiuni */
-  --culoare-fundal:    #FDF6F0;   /* crem — fundalul paginii */
-  --culoare-text:      #3D2B2B;   /* maro închis — text principal */
-  --culoare-border:    #EDCFDA;   /* roz foarte pal — borduri */
+  --culoare-primara:   #C2678B;   
+  --culoare-secundara: #E8A0B8;   
+  --culoare-accent:    #F7C5D5;   
+  --culoare-fundal:    #FDF6F0;   
+  --culoare-text:      #3D2B2B;   
+  --culoare-border:    #EDCFDA;   
   --spatiere-pagina:   80px;   
   --spatiere-medie:    40px;   
   --spatiere-mica:     10px;   
@@ -27,7 +27,7 @@ html {
 body {
   font-family: 'Poppins', sans-serif;
   background-color: var(--culoare-fundal);
-  color: var(--culoare-textt);
+  color: var(--culoare-text);
   margin: 0;
   padding: 0;
 }
@@ -177,8 +177,8 @@ main {
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-areas:
     "zona1  zona1  zona1 zona1"
-    "zona2  zona3  zona3 zona3"
-    "zona2  zona4  zona4 zona4"
+    "zona2  zona2  zona3 zona3"
+    "zona2  zona2  zona4 zona4"
     "zona5  zona6  zona6 zona7"
     "zona8  zona8  zona8 zona8";
   gap: var(--gap-grid);
@@ -387,4 +387,333 @@ mrow {
   align-items : center;
   gap         : 0.2em;
   flex-wrap   : wrap;
+}
+/* Lățime în procente, min și max lățime pentru ecrane mici/mari */
+#video-custom {
+    width: 80%;
+    min-width: 320px;
+    max-width: 900px;
+    display: block;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Gradient pe textul din subtitrări (cerința specifică cu background-clip) */
+#video-custom::cue {
+    /* Folosim două culori închise, de ex: gri închis spre negru */
+    background-image: linear-gradient(to right, #2c3e50, #000000); 
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+main a {
+    position: relative;
+    display: inline-block; 
+    padding: 2px 5px; 
+    text-decoration: none;
+    color: var(--culoare-primara); 
+    border: 1px solid transparent; 
+    
+    
+    background-image: radial-gradient(circle, var(--culoare-secundara) 0%, var(--culoare-secundara) 40%, transparent 80%, transparent 100%);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 0%; 
+    transition: background-size 0.4s ease, border 0.1s ease;
+}
+
+
+main a:hover {
+    background-size: 100%;
+}
+
+
+main a:active {
+    border: 1px solid var(--culoare-primara); 
+}
+
+
+main a:visited {
+    color: var(--culoare-secundara);
+}
+
+
+main a[href^="http"]::before {
+    content: "⍈ "; 
+    font-size: 1.5em; 
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+main a[href^="http"]:hover::before {
+    color: var(--culoare-secundara);
+}
+
+
+.galerie-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 15px;
+    width: 100%; 
+    margin: 30px 0;
+    counter-reset: index-galerie;
+}
+
+
+.item-galerie-complex {
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border: 0px solid transparent; 
+    transition: transform 1.2s ease, border 1.2s ease;
+    counter-increment: index-galerie;
+}
+
+.item-galerie-complex img {
+    width: 100%;
+    height: 250px; 
+    object-fit: cover; 
+    display: block;
+}
+
+
+.item-galerie-complex:nth-of-type(5) {
+    grid-column-start: 3;
+}
+
+.item-galerie-complex:nth-of-type(7) {
+    grid-column-start: 3;
+}
+
+
+.descriere-galerie::before {
+    content: counter(index-galerie, upper-roman) ". ";
+    font-weight: bold;
+    color: var(--culoare-primara, #ff6600);
+}
+
+.item-galerie-complex:hover {
+    transform: scale(1.25) rotate(-10deg);
+    border: 4px solid var(--culoare-secundara, #333);
+    z-index: 10; 
+}
+
+
+@media screen and (max-width: 1024px){
+    .galerie-grid { grid-template-columns: repeat(2, 1fr); }
+    .item-galerie-complex:nth-of-type(5),
+    .item-galerie-complex:nth-of-type(7) { grid-column-start: auto; }
+}
+
+@media screen and (max-width: 600px) {
+    .galerie-grid { grid-template-columns: 1fr; }
+    .item-galerie-complex:nth-of-type(5),
+    .item-galerie-complex:nth-of-type(7) { grid-column-start: auto; }
+}
+
+/* EFECTE CSS                         
+
+/* 1.Schimbarea afișării textului selectat */
+::selection {
+    background-color: var(--culoare-primara, #ff6600);
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+
+.text-pe-coloane {
+    column-count: 2; 
+    column-rule: 2px dashed var(--culoare-primara, #ff6600);
+    column-gap: 2rem;
+    text-align: justify;
+}
+@media screen and (max-width: 1024px) {
+    .text-pe-coloane {
+        column-count: 1; 
+        column-rule: none;
+    }
+}
+
+
+.container-marquee {
+    width: 100%;
+    overflow: hidden; 
+    background-color: var(--culoare-secundara, #333);
+    color: white;
+    padding: 15px 0;
+    box-sizing: border-box;
+}
+.text-marquee {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 1.2rem;
+    font-weight: bold;
+    animation: plimbareText 12s linear infinite;
+}
+@keyframes plimbareText {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+}
+
+
+.bg-fix-animat {
+    background-image: url('/resurse/imagini/sala-mare.jpg');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: schimbaBg 10s infinite; 
+    margin: 40px 0;
+}
+.bg-fix-animat h2 {
+    color: white;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+    font-size: 2.5rem;
+}
+@keyframes schimbaBg {
+    0%, 45% { background-image: url('/resurse/imagini/sala-mare.jpg'); }
+    50%, 95% { background-image: url('/resurse/imagini/yoga-mare.jpg'); }
+    100% { background-image: url('/resurse/imagini/sala-mare.jpg'); }
+}
+
+/* 5.  */
+
+@media screen and (max-width: 600px) {
+    .tabel-container table, .tabel-container thead, .tabel-container tbody, .tabel-container th, .tabel-container td, .tabel-container tr {
+        display: block;
+    }
+    .tabel-container thead tr {
+        position: absolute; top: -9999px; left: -9999px; /* Ascundem capul de tabel vizual */
+    }
+    .tabel-container tr { margin-bottom: 15px; border: 2px solid #ddd; border-radius: 8px; padding: 10px; }
+    .tabel-container td {
+        border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 50%; text-align: right;
+    }
+    .tabel-container td::before {
+        position: absolute; left: 10px; width: 45%; white-space: nowrap; font-weight: bold; text-align: left;
+    }
+    .tabel-container td:nth-of-type(1)::before { content: "Pachet:"; }
+    .tabel-container td:nth-of-type(2)::before { content: "Durată:"; }
+    .tabel-container td:nth-of-type(3)::before { content: "Clase incluse:"; }
+    .tabel-container td:nth-of-type(4)::before { content: "Preț (RON):"; }
+}
+
+
+.video-background-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+.video-background-container video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    z-index: -1; 
+    object-fit: cover;
+    opacity: 0.7; 
+}
+
+/* 6.Tabel Transpus    */
+
+@media screen and (max-width: 900px) and (min-width: 601px) {
+    .tabel-container table {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto; 
+        border-collapse: collapse;
+    }
+    
+    
+    .tabel-container thead {
+        display: block;
+        flex-shrink: 0;
+        background-color: var(--culoare-secundara, #333);
+        color: white;
+    }
+    
+    
+    .tabel-container tbody {
+        display: flex;
+        flex-direction: row;
+    }
+    
+    
+    .tabel-container tr {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    
+    .tabel-container th, .tabel-container td {
+        display: block;
+        height: 80px; 
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin: 0;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+  
+    .tabel-container tfoot { 
+        display: none; 
+    }
+}
+/* ==========================================
+       STILIZARE HR ETAPA 5 (Curburi ample vizibile)
+       ========================================== */
+hr {
+    border: none;
+    border-top: 2px solid #f48fb1; /* Rozul tău */
+    height: 0;
+    position: relative;
+    overflow: visible; 
+    margin: 40px 20px; 
+    opacity: 1; 
+}
+
+hr::before {
+    content: ')\A)'; /* \A pune a doua paranteză pe rândul următor */
+    white-space: pre; /* OBLIGATORIU ca să recunoască enter-ul (\A) */
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(calc(-100% + 4px), -50%); 
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 0.85; /* 🔥 MAGIA: Le strânge pe verticală până se lipsesc */
+    color: #f48fb1;
+}
+
+hr::after {
+    content: '(\A('; /* La fel, rând nou între ele */
+    white-space: pre;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(calc(100% - 4px), -50%);
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 0.85; /* Le strânge una în alta pe verticală */
+    color: #f48fb1;
 }

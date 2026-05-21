@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <%- include('../fragmente/head') %>
+  <title><%= locals.titlu %></title>
+</head>
+<body>
+
+  <%- include('../fragmente/header') %>
+
+  <main>
+    <section id="zona-eroare" style="text-align: center; padding: 100px 20px;">
+      <h1 style="color: var(--culoare-primara); font-size: 2.5rem; margin-bottom: 20px;">
+        <%= locals.titlu %>
+      </h1>
+      
+      <p style="font-size: 1.2rem; margin-bottom: 30px;">
+        <%= locals.text %>
+      </p>
+      
+      <img src="<%= locals.imagine %>" alt="Imagine eroare" style="max-width: 400px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+      
+      <div style="margin-top: 40px;">
+        <a href="/" style="padding: 10px 20px; background-color: var(--culoare-secundara); color: white; text-decoration: none; border-radius: 5px;">
+          Întoarce-te Acasă
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <%- include('../fragmente/footer') %>
+
+</body>
+</html>
